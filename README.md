@@ -1,4 +1,4 @@
-# 🏛️ Public Payroll Pipeline - Office of the Comptroller General of Panama.
+# 🏛️ Public Payroll Pipeline - Office of the Comptroller General of Panama
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Jose_Quesada-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jquesada92/)
 [![Databricks](https://img.shields.io/badge/Databricks-DLT-FF3621?style=flat&logo=databricks&logoColor=white)](https://databricks.com)
@@ -23,28 +23,28 @@ This project implements a modern data architecture using **Spark Declarative Pip
 
 ┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
 │                  │       │                  │       │                  │
-│   External API   │──────▶│  Staging Layer   │──────▶│   Bronze Layer   │
+│   External API   │──────▶│  Volume Staging  │──────▶│   Bronze Layer   │
 │   Contraloría    │       │  (Parquet Files) │       │  (Raw Ingestion) │
 │                  │       │                  │       │                  │
 └──────────────────┘       └──────────────────┘       └────────┬─────────┘
                                                                 │
-                           ┌────────────────────────────────────┘
-                           │
-                           ▼
-                    ┌─────────────────┐
-                    │                 │
-                    │  Bronze SCD-2   │◀─── Auto CDC Flow
-                    │  (Historical)   │     (Change Tracking)
-                    │                 │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │                 │
-                    │  Silver Layer   │◀─── Materialized View
-                    │  (Curated Data) │     (Latest Snapshot)
-                    │                 │
-                    └─────────────────┘
+                            ┌───────────────────────────────────┘
+                            │
+                            ▼
+                     ┌─────────────────┐
+                     │                 │
+                     │  Bronze SCD-2   │◀─── Auto CDC Flow
+                     │  (Historical)   │     (Change Tracking)
+                     │                 │
+                     └────────┬────────┘
+                              │
+                              ▼
+                     ┌─────────────────┐
+                     │                 │
+                     │  Silver Layer   │◀─── Materialized View
+                     │  (Curated Data) │     (Latest Snapshot)
+                     │                 │
+                     └─────────────────┘
 ```
 
 ### Detailed Data Flow
@@ -52,31 +52,29 @@ This project implements a modern data architecture using **Spark Declarative Pip
 ```mermaid
 graph LR
     A[Contraloría API] -->|HTTP Request| B[setup_and_download_files.py]
-    B -->|Save Parquet| C[Workspace Staging]
-    C -->|Manual Copy| D[Volume Staging]
-    D -->|Auto Loader| E[bronze_contraloria_employees_raw]
-    E -->|Auto CDC| F[bronze_contraloria_employees_scd_type2]
-    F -->|Batch Read + Joins| G[silver_employee_payroll_latest_snapshot]
-    F -->|Anti Join| H[silver_inactive_employees]
+    B -->|Save Parquet| C[Volume Staging]
+    C -->|Auto Loader| D[bronze_contraloria_employees_raw]
+    D -->|Auto CDC| E[bronze_contraloria_employees_scd_type2]
+    E -->|Batch Read + Joins| F[silver_employee_payroll_latest_snapshot]
+    E -->|Anti Join| G[silver_inactive_employees]
     
-    B -->|Audit Log| I[(api_check_log)]
-    I -->|DLT Pipeline| J[api_check_log_latest]
-    J -->|Generate| K[(reference_status_names)]
-    J -->|Generate| L[(reference_institution_names)]
-    E -->|Extract Positions| M[(reference_position_names)]
+    B -->|Audit Log| H[(api_check_log)]
+    H -->|DLT Pipeline| I[api_check_log_latest]
+    I -->|Generate| J[(reference_status_names)]
+    I -->|Generate| K[(reference_institution_names)]
+    D -->|Extract Positions| L[(reference_position_names)]
     
     style A fill:#ff6b6b
     style C fill:#ffd93d
-    style D fill:#ffd93d
+    style D fill:#6bcf7f
     style E fill:#6bcf7f
-    style F fill:#6bcf7f
+    style F fill:#4d96ff
     style G fill:#4d96ff
-    style H fill:#4d96ff
+    style H fill:#c5c5c5
     style I fill:#c5c5c5
     style J fill:#c5c5c5
     style K fill:#c5c5c5
     style L fill:#c5c5c5
-    style M fill:#c5c5c5
 ```
 
 ---
@@ -155,8 +153,8 @@ graph LR
 ```
 contraloria_panama/
 │
+├── 📄 README.md                          # English documentation (this file)
 ├── 📄 README_ES.md                       # Spanish documentation
-├── 📄 README_EN.md                       # English documentation (this file)
 │
 ├── 📄 requirements.txt                   # Python dependencies
 ├── 🚫 .gitignore                         # Git exclusions
@@ -165,7 +163,7 @@ contraloria_panama/
 │   ├── Creates catalogs and schemas
 │   ├── Creates api_check_log table
 │   ├── Downloads data from API
-│   ├── Saves to workspace staging folder
+│   ├── Saves directly to Unity Catalog Volume staging
 │   └── Logs audit trail
 │
 ├── 📂 transformations/
@@ -243,20 +241,10 @@ Run the setup script:
 2. 📂 Creates `employee_payroll` and `reference_and_audit` schemas
 3. 📝 Creates audit table: `api_check_log`
 4. 🌐 Extracts data from Contraloría API
-5. 💾 Saves Parquet files in workspace `staging/` folder
+5. 💾 Saves Parquet files **directly to Unity Catalog Volume** (`/Volumes/contraloria/reference_and_audit/contraloria_staging/`)
 6. 📊 Logs extraction metadata
 
-**Note**: The script saves files to workspace staging. You need to manually copy them to the Unity Catalog Volume:
-
-```python
-# Copy from workspace to volume
-source_path = '/Workspace/Users/jaquesada92@outlook.com/contraloria_panama/staging/'
-target_path = '/Volumes/contraloria/reference_and_audit/contraloria_staging/'
-
-files = dbutils.fs.ls(source_path)
-for file in files:
-    dbutils.fs.cp(file.path, target_path + file.name)
-```
+**Note**: The script saves files directly to the Unity Catalog Volume. The Volume must exist before running the script.
 
 ### Step 2️⃣: Run Reference Pipeline (First Time Only)
 
@@ -362,15 +350,8 @@ print(f"Processed {updates} updates")
 │ 1. Script queries Contraloría API                                   │
 │ 2. Checks last update date in source                                │
 │ 3. Downloads only new/modified records                              │
-│ 4. Saves in optimized Parquet format to workspace staging/          │
+│ 4. Saves in optimized Parquet format directly to Volume staging     │
 │ 5. Logs metadata in audit table                                     │
-└─────────────────────────────────────────────────────────────────────┘
-                             ⬇️
-┌─────────────────────────────────────────────────────────────────────┐
-│ STEP 1.5: MANUAL COPY (TEMPORARY)                                   │
-├─────────────────────────────────────────────────────────────────────┤
-│ Copy files from workspace staging/ to Unity Catalog Volume          │
-│ Path: /Volumes/contraloria/reference_and_audit/contraloria_staging  │
 └─────────────────────────────────────────────────────────────────────┘
                              ⬇️
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -421,7 +402,6 @@ print(f"Processed {updates} updates")
 | Process | Suggested Frequency | Reason |
 |---------|---------------------|-------|
 | **API Extraction** | Monthly | Source updates monthly |
-| **File Copy to Volume** | Post-extraction | Manual step (temporary) |
 | **Reference Pipeline** | Post-extraction | Generate translations for new data |
 | **Main DLT Pipeline** | Post-reference pipeline | Process only when new data arrives |
 | **Monitoring** | Daily | Validate quality and completeness |
@@ -583,16 +563,18 @@ FROM contraloria.employee_payroll.silver_employee_payroll_latest_snapshot;
 ### Staging Cleanup
 
 ```python
-# Clean workspace staging files (after copying to volume)
-staging_path = '/Workspace/Users/jaquesada92@outlook.com/contraloria_panama/staging/'
+# Clean Volume staging files (if needed)
+staging_path = '/Volumes/contraloria/reference_and_audit/contraloria_staging/'
 
 # List files
 files = dbutils.fs.ls(staging_path)
 print(f"Total files: {len(files)}")
 
-# Delete all staging files (after confirming pipeline ran successfully)
-dbutils.fs.rm(staging_path, recurse=True)
-dbutils.fs.mkdirs(staging_path)
+# Delete processed files (after confirming pipeline ran successfully)
+# Be careful with this operation!
+for file in files:
+    if file.name.endswith('.parquet'):
+        dbutils.fs.rm(file.path)
 ```
 
 ### Schema Updates
@@ -661,4 +643,4 @@ This project is for educational and demonstration purposes.
 ---
 
 *Last updated: January 2025*  
-*Version: 2.1*
+*Version: 2.2*

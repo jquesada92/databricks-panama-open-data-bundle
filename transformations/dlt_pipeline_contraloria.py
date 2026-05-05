@@ -33,7 +33,7 @@ def bronze_contraloria_employees_raw():
         .schema(STAGING_SCHEMA)
         .load(STAGING_PATH)
         .withColumns({'composite_key': F.concat_ws('-',F.col('nombre'),F.col('apellido'), F.col('institucion'), F.col('cargo'), F.regexp_replace('cedula','-','')),
-                    "antiguedad":F.months_between(F.col("fecha_consulta"), F.col("fecha_de_inicio")) / 12}
+                    "antiguedad":F.months_between(F.col("fecha_actualizacion"), F.col("fecha_de_inicio")) / 12}
         )
     )
 

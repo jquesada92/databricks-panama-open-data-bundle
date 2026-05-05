@@ -51,9 +51,10 @@ up_to_date_df = spark.read.table(TABLE_AUDIT_API_CHECK).where(f'run_status =="OK
 
 
 from itertools import product
-save_path = '/Workspace/Users/jaquesada92@outlook.com/contraloria_panama/staging'
+save_path =  '/Volumes/contraloria/reference_and_audit/contraloria_staging'
 dbutils.fs.mkdirs(save_path)
 updates = 0
+
 for institution, status in product(institution_lst, status_lst):
     e = 'OK'
     rsp = 'No Update'
