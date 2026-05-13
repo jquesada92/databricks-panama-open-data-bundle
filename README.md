@@ -6,9 +6,11 @@
 
 ## 📋 Overview
 
-Enterprise data pipeline for extracting, processing, and analyzing public employee payroll information from the Republic of Panama, sourced from the official API of the Office of the Comptroller General (Contraloría General de la República).
+This is a personal data engineering project focused on collecting and analyzing public payroll data from Panama's Office of the Comptroller General. The purpose is to monitor salary trends, detect potential anomalies, and forecast future government payroll expenses.
 
-This project implements a modern data architecture using **Spark Declarative Pipelines (Delta Live Tables)** on **Databricks**, following the **Medallion Architecture** pattern (Bronze → Silver) with advanced historical tracking capabilities via **SCD Type 2** and **Liquid Clustering** for optimized performance.
+The pipeline is built with Databricks, using **Spark Declarative Pipelines (Delta Live Tables)** and a **Bronze-Silver medallion architecture**. It also includes **SCD Type 2** for historical tracking and **Liquid Clustering** to support efficient querying as the data grows.
+
+Since this is a personal project, I'm building it with the free Databricks tier and using the Power BI connector to create a public dashboard. The only expected cost is the Microsoft license needed to publish and manage the Power BI report.
 
 ---
 
@@ -643,4 +645,4 @@ This project is for educational and demonstration purposes.
 ---
 
 *Last updated: January 2025*  
-*Version: 2.2*
+*Version: 2.3*

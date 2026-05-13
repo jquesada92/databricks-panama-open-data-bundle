@@ -6,9 +6,11 @@
 
 ## 📋 Descripción
 
-Pipeline de datos empresarial para la extracción, procesamiento y análisis de información de nómina de empleados públicos de la República de Panamá, obtenida desde la API oficial de la Contraloría General de la República.
+Este es un proyecto personal de ingeniería de datos enfocado en la recopilación y análisis de datos de nómina pública de la Contraloría General de la República de Panamá. El propósito es monitorear tendencias salariales, detectar posibles anomalías y pronosticar futuros gastos de nómina gubernamental.
 
-Este proyecto implementa una arquitectura de datos moderna utilizando **Spark Declarative Pipelines (Delta Live Tables)** en **Databricks**, siguiendo el patrón **Medallion Architecture** (Bronze → Silver) con capacidades avanzadas de seguimiento histórico mediante **SCD Type 2** y **Liquid Clustering** para optimización de rendimiento.
+El pipeline está construido con Databricks, utilizando **Spark Declarative Pipelines (Delta Live Tables)** y una **arquitectura medallion Bronze-Silver**. También incluye **SCD Type 2** para seguimiento histórico y **Liquid Clustering** para soportar consultas eficientes a medida que los datos crecen.
+
+Al ser un proyecto personal, está construido con el tier gratuito de Databricks y utiliza el conector de Power BI para crear un dashboard público. El único costo esperado es la licencia de Microsoft necesaria para publicar y gestionar el reporte de Power BI.
 
 ---
 
@@ -605,7 +607,7 @@ Si la API agrega nuevas columnas:
 
 Se ha creado un dashboard interactivo de Power BI para visualizar y analizar los datos de nómina de la tabla `silver_employee_payroll_latest_snapshot`.
 
-**🔗 Acceder al Dashboard**: [Análisis de Nómina Pública de Panamá - Power BI](https://app.powerbi.com/view?r=eyJrIjoiOGUxOTk0ZWEtODg2NC00NDEzLTllMWYtOTdkMjkxMWE3ZWU3IiwidCI6IjBhNzk5NDU0LTM1NTAtNGZiNi1iNGMzLWY5ZWIzMmVhOWU2NCJ9)
+**🔗 Acceder al Dashboard**: [Análisis de Nómina Pública de Panamá - Power BI](https://app.powerbi.com/view?r=eyJrIjoiOGUxOTk0ZWEtODg2NC00NDEzLTllMWYtOTdkMjkxMWE3ZWU3IiwidCI6IjBhNzk5NDU0LTM1NTAtNGZiNi1iNGMzLWY5ZWIzMmVhOWU2NCN9)
 
 **Características del Dashboard:**
 * 📊 Distribución de empleados por institución
@@ -643,4 +645,4 @@ Este proyecto es para propósitos educativos y de demostración.
 ---
 
 *Última actualización: Enero 2025*  
-*Versión: 2.2*
+*Versión: 2.3*
