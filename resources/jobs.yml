@@ -1,0 +1,52 @@
+resources:
+
+  jobs:
+
+
+    job_contraloria:
+
+      environments:
+        - environment_key: serverless_contraloria
+          spec:
+            dependencies:
+              - openpyxl
+              - ..\dist\public_data_panama_gov-0.0.1-py3-none-any.whl
+            environment_version: "5"
+
+      name: job_actualizar_contraloria
+      schedule:
+        quartz_cron_expression: 0 20 4 ? * 2,4,6
+        timezone_id: America/Panama
+        pause_status: UNPAUSED
+
+      tasks:
+        - task_key: descargar_datos_contraloria
+          spark_python_task:
+            python_file: ..\src\consulta_y_descarga_contraloria.py
+            parameters:
+              - "--catalog"
+              - ${var.catalog}
+              - "--schema"
+              - ${resources.schemas.contraloria.name}
+              - "--volume"
+              - ${resources.volumes.landing_volume.name}
+          environment_key: serverless_contraloria
+
+        - task_key: revisar_actualizaciones
+          depends_on:
+            - task_key: descargar_datos_contraloria
+          condition_task:
+            op: GREATER_THAN
+            left: "{{tasks.descargar_datos_contraloria.values.updates}}"
+            right: "0"
+        - task_key: update_contraloria_schema
+          depends_on:
+            - task_key: revisar_actualizaciones
+              outcome: "true"
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.dlt_contraloria.id}
+            full_refresh: false
+      queue:
+        enabled: true
+     
+      performance_target: PERFORMANCE_OPTIMIZED

@@ -1,0 +1,21 @@
+resources:
+
+  
+  schemas:
+    contraloria:
+      catalog_name: ${var.catalog}
+      name: ${var.contraloria_schema}
+      lifecycle:
+        prevent_destroy: ${var.prevent_destroy}
+        
+
+  volumes:
+    landing_volume:
+      name: landing
+      catalog_name: ${var.catalog}
+      schema_name: ${var.contraloria_schema}
+      volume_type: MANAGED
+      comment: Landing area for incoming files
+      lifecycle:
+        prevent_destroy: ${var.prevent_destroy}
+

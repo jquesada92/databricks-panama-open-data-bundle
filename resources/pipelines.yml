@@ -1,0 +1,17 @@
+resources:
+  pipelines:
+    dlt_contraloria:
+      name: pipeline_actualizacion_tablas_contraloria
+      libraries:
+        - file:
+            path: ../transformations/api_logs.py
+        - file:
+            path: ../transformations/planilla.py
+      catalog: ${var.catalog}
+      schema: ${resources.schemas.contraloria.name}
+      configuration:
+        VOLUME: /Volumes/${var.catalog}/${resources.schemas.contraloria.name}/${resources.volumes.landing_volume.name}
+      continuous: false
+      development: ${var.pipeline_mode_development}
+      photon: true
+      serverless: true

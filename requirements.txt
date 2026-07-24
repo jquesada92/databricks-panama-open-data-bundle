@@ -1,1 +1,4 @@
+databricks-connect==17.3.12
+setuptools==68.0.0
+wheel==0.41.2
 openpyxl

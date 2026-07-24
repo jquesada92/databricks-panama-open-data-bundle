@@ -1,6 +1,0 @@
-CATALOG = 'contraloria'
-SCHEMA_REFERENCE_AUDIT = f'{CATALOG}.reference_and_audit'
-SCHEMA_PAYROLL = f'{CATALOG}.employee_payroll'
-TABLE_REFERENCE_STATUS = f'{SCHEMA_REFERENCE_AUDIT}.reference_status'
-TABLE_REFERENCE_INSTITUCIONS = f'{SCHEMA_REFERENCE_AUDIT}.reference_institutions'
-TABLE_AUDIT_API_CHECK = f'{SCHEMA_REFERENCE_AUDIT}.api_check_log'

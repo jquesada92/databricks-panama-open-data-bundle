@@ -1,22 +1,10 @@
-
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Databricks
 .databricks/
-_schema/
-
-# Checkpoints
-checkpoints/
-*.checkpoint
-
-# Logs
-*.log
-
-# OS generated files
-.DS_Store
-.DS_Store?
-Thumbs.db
+build/
+__pycache__/
+*.egg-info
+.venv/
+scratch/**
+!scratch/README.md
+**/explorations/**
+**/!explorations/README.md
+.vscode/

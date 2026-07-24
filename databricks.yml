@@ -1,0 +1,68 @@
+# This is a Databricks asset bundle definition for public_data_panama_gov.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: panama_datos_abiertos
+  uuid: 8e261703-afb3-4b49-abd4-d424cfa08f6a
+
+include:
+  - resources/*.yml
+
+
+
+variables:
+  host:
+    description: Databricks workspace host URL
+  catalog:
+    description: Unity Catalog catalog name
+    default: panama_datos_abiertos
+  contraloria_schema:
+    description: Unity Catalog schema name
+    default: contraloria
+  contraloria_volume:
+    description: Unity Catalog volume name
+    default: landi
+  warehouse_id: 
+    description: Warehouse ID to run the setup job
+  prevent_destroy:
+    description: Whether to prevent the destruction of resources
+    default: false
+  pipeline_mode_development:
+    description: Whether to run pipelines in development mode
+    default: false
+
+targets:
+
+  personal:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/panama_datos_abiertos/contraloria
+    variables:
+      prevent_destroy: false
+      pipeline_mode_development: true
+    permissions:
+      - user_name: ${workspace.current_user.userName}
+        level: CAN_MANAGE
+      
+  
+  shared:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: production
+    default: false
+    workspace:
+      root_path: /Workspace/Shared/panama_datos_abiertos/contraloria
+   
+    variables:
+      prevent_destroy: true
+      pipeline_mode_development: false
+    permissions:
+      - user_name: ${workspace.current_user.userName}
+        level: CAN_MANAGE
+      
