@@ -1,0 +1,204 @@
+table gold_aggregated_by_institution_status_position
+	lineageTag: 7f8e0ef6-0098-42c1-9b02-5c12ed522f63
+
+	column institution_sp
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 0a5c87e5-dc43-4cb3-bbb5-93978fff7186
+		summarizeBy: none
+		sourceColumn: institution_sp
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_en
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 11ee69dc-e8dc-4ab9-97a4-3ef305f92ea9
+		summarizeBy: none
+		sourceColumn: institution_en
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_sp
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: d5e31000-d411-4c7f-9d2e-1872b5f72ab2
+		summarizeBy: none
+		sourceColumn: status_sp
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_en
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 43c3daee-fb27-4b53-bb21-960f7a11e438
+		summarizeBy: none
+		sourceColumn: status_en
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_sp
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: a2bce2c2-d77c-46c6-b247-fe4b9c49219b
+		summarizeBy: none
+		sourceColumn: position_sp
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_en
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: a8b50252-8043-4ead-a35c-edd9a899cf3d
+		summarizeBy: none
+		sourceColumn: position_en
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_salary
+		dataType: double
+		sourceProviderType: double
+		lineageTag: c1458850-3f08-4277-81fe-e69c217296e0
+		summarizeBy: sum
+		sourceColumn: total_salary
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_salary
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 2b24baee-ad5a-4bf3-b655-b56e96d81809
+		summarizeBy: sum
+		sourceColumn: avg_salary
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_allowance
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 3240726a-4319-4d99-8716-9d211be411e9
+		summarizeBy: sum
+		sourceColumn: total_allowance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_allowance
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 9589f317-be17-4c91-8e2b-4fdb509b14c9
+		summarizeBy: sum
+		sourceColumn: avg_allowance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_compensation
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 21587a81-7241-4b41-b39b-22875618da3b
+		summarizeBy: sum
+		sourceColumn: total_compensation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column employee_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: cc7c1675-c6a9-4c8e-85aa-f23d8eb54719
+		summarizeBy: sum
+		sourceColumn: employee_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_employee_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b29926ae-8255-4872-89b6-b95eb06d9bee
+		summarizeBy: sum
+		sourceColumn: unique_employee_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_start_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: fcbc96d3-e1b9-45aa-8ab1-8c78c2eb28e0
+		summarizeBy: none
+		sourceColumn: first_start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_start_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: a9b6ed27-2d14-4d84-aa2b-f70484b0e862
+		summarizeBy: none
+		sourceColumn: last_start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column avg_years_of_service
+		dataType: double
+		sourceProviderType: double
+		lineageTag: c3d13b19-2520-48d1-96f3-da30831bfd38
+		summarizeBy: sum
+		sourceColumn: avg_years_of_service
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column min_years_of_service
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 72e23f02-50ba-4ed3-b03e-a881571af198
+		summarizeBy: sum
+		sourceColumn: min_years_of_service
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_years_of_service
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 5e1ad145-4082-477e-a376-85bd2214ad90
+		summarizeBy: sum
+		sourceColumn: max_years_of_service
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gold_aggregated_by_institution_status_position = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-f88938f0-02c4.cloud.databricks.com", "/sql/1.0/warehouses/05d15c3c0e634ce9", [Catalog = "", Database = ""]),
+				    panama_datos_abiertos_Database = Source{[Name="panama_datos_abiertos",Kind="Database"]}[Data],
+				    contraloria_Schema = panama_datos_abiertos_Database{[Name="contraloria",Kind="Schema"]}[Data],
+				    resumen_por_institucion_y_puesto_View = contraloria_Schema{[Name="resumen_por_institucion_y_puesto",Kind="View"]}[Data]
+				in
+				    resumen_por_institucion_y_puesto_View
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,71 @@
+relationship 0bc92c27-1bf4-3442-39f8-3c58fcd1e575
+	crossFilteringBehavior: bothDirections
+	fromColumn: gold_aggregated_by_institution_status_position.position_sp
+	toColumn: reference_position_names.position_name_spanish
+
+relationship 03aaca74-dbb8-a8d3-dd95-e4aca7466203
+	crossFilteringBehavior: bothDirections
+	fromColumn: silver_employee_payroll_latest_snapshot.cedula
+	toColumn: gold_employee_aggregated_summary.cedula
+
+relationship 3a8439e5-12c0-6452-c8d4-d07bf04a08bd
+	crossFilteringBehavior: bothDirections
+	fromColumn: gold_aggregated_by_institution_status_position.status_sp
+	toColumn: reference_status_names.status_name_spanish
+
+relationship 7ee864e0-426e-a335-6a69-de20f30c07c4
+	crossFilteringBehavior: bothDirections
+	fromColumn: silver_employee_payroll_latest_snapshot.Institucion
+	toColumn: reference_institution_names.institution_name_spanish
+
+relationship 6183c42a-2e66-bb37-b030-333374a6b16b
+	crossFilteringBehavior: bothDirections
+	fromColumn: silver_employee_payroll_latest_snapshot.Cargo
+	toColumn: reference_position_names.position_name_spanish
+
+relationship baa6d583-81d0-4275-974a-8924863b40d4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: silver_employee_payroll_latest_snapshot.'Fecha de Inicio'
+	toColumn: LocalDateTable_c8bac4b9-996b-48ff-9204-9add16d82e5f.Date
+
+relationship f2cbb02c-baed-46ad-8ac7-afdc227f66c8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: gold_employee_aggregated_summary.primera_fecha_inicio
+	toColumn: LocalDateTable_dbef3d60-5046-482f-b5c3-cbb7ea9274ad.Date
+
+relationship dad0eaf0-8696-4128-a4ba-bf302c222733
+	joinOnDateBehavior: datePartOnly
+	fromColumn: gold_employee_aggregated_summary.ultima_fecha_inicio
+	toColumn: LocalDateTable_208a3b7d-44ac-47bc-bb9d-7f9a21538b77.Date
+
+relationship 84e86713-8548-4429-889a-254d13b70e90
+	joinOnDateBehavior: datePartOnly
+	fromColumn: reference_institution_names.last_source_update
+	toColumn: LocalDateTable_e44a8bfe-2756-4845-80aa-a53172ff61c4.Date
+
+relationship 8c80c1cc-8179-486c-98d2-821d8692fcfe
+	joinOnDateBehavior: datePartOnly
+	fromColumn: reference_institution_names.last_checked_at
+	toColumn: LocalDateTable_cb3e7c51-ca45-4be3-9fac-60c81b7e4ab2.Date
+
+relationship 529ef1f4-87b0-4a04-9ec8-48a3e0467eb5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: reference_position_names.last_seen_at
+	toColumn: LocalDateTable_b24bed7b-32be-4066-8a3c-37d7b1af04c0.Date
+
+relationship 9e219ba0-c580-44db-a50e-5941c4ac373a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: reference_status_names.last_source_update
+	toColumn: LocalDateTable_497ee952-0e04-4a05-9505-5e1637c85b43.Date
+
+relationship 951024dc-1da5-4aa5-98c1-3893cb08e39b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: reference_status_names.last_checked_at
+	toColumn: LocalDateTable_d1c8a9e2-0a53-4743-9489-9af823acb3ee.Date
+
+relationship a2a84ff4-d16c-8a96-fff0-b063fce72d28
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromColumn: gold_aggregated_by_institution_status_position.institution_sp
+	toColumn: reference_institution_names.institution_name_spanish
+

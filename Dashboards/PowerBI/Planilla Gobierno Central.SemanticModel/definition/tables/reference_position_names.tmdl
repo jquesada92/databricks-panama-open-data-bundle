@@ -1,0 +1,51 @@
+table reference_position_names
+	lineageTag: 65bb4a10-f3e6-4f21-9c0d-6f495ac8d32f
+
+	column position_name_spanish
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 4f547a4b-17ea-4185-96bc-2ae36e7a0ce5
+		summarizeBy: none
+		sourceColumn: position_name_spanish
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_name_english
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: b0167470-3611-4197-9632-9236cddeef78
+		summarizeBy: none
+		sourceColumn: position_name_english
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_seen_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: a9d37935-8fb0-4dfd-8ae9-0939f536184d
+		summarizeBy: none
+		sourceColumn: last_seen_at
+
+		variation Variation
+			isDefault
+			relationship: 529ef1f4-87b0-4a04-9ec8-48a3e0467eb5
+			defaultHierarchy: LocalDateTable_b24bed7b-32be-4066-8a3c-37d7b1af04c0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reference_position_names = m
+		mode: import
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-f88938f0-02c4.cloud.databricks.com", "/sql/1.0/warehouses/05d15c3c0e634ce9", [Catalog = "", Database = ""]),
+				    panama_datos_abiertos_Database = Source{[Name="panama_datos_abiertos",Kind="Database"]}[Data],
+				    contraloria_Schema = panama_datos_abiertos_Database{[Name="contraloria",Kind="Schema"]}[Data],
+				    dim_cargos_contraloria_View = contraloria_Schema{[Name="dim_cargos_contraloria",Kind="View"]}[Data]
+				in
+				    dim_cargos_contraloria_View
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

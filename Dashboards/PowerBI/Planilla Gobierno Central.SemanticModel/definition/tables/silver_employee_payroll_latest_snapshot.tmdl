@@ -1,0 +1,225 @@
+table silver_employee_payroll_latest_snapshot
+	lineageTag: bb208b67-c1be-4396-807b-d0a653615a36
+
+	measure total_salario_norm =
+			
+			VAR CurrentValue =
+			    SELECTEDVALUE(silver_employee_payroll_latest_snapshot[Salario mas Gasto])
+			
+			VAR MinValue =
+			    CALCULATE(
+			        MIN(silver_employee_payroll_latest_snapshot[Salario mas Gasto]),
+			        ALL(silver_employee_payroll_latest_snapshot)
+			    )
+			VAR MaxValue =
+			    CALCULATE(
+			        MAX(silver_employee_payroll_latest_snapshot[Salario mas Gasto]),
+			        ALL(silver_employee_payroll_latest_snapshot)
+			    )
+			RETURN
+			    DIVIDE(
+			        CurrentValue - MinValue,
+			        MaxValue - MinValue
+			    )
+		lineageTag: 4f6a062a-cae8-4680-921d-2fffbb58590b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure msr_total_antiguedad_norm =
+			
+			VAR CurrentValue =
+			    SELECTEDVALUE(silver_employee_payroll_latest_snapshot[Antiguedad])
+			
+			VAR MinValue =
+			    CALCULATE(
+			        MIN(silver_employee_payroll_latest_snapshot[Antiguedad]),
+			        ALL(silver_employee_payroll_latest_snapshot)
+			    )
+			VAR MaxValue =
+			    CALCULATE(
+			        MAX(silver_employee_payroll_latest_snapshot[Antiguedad]),
+			        ALL(silver_employee_payroll_latest_snapshot)
+			    )
+			RETURN
+			    DIVIDE(
+			        CurrentValue - MinValue,
+			        MaxValue - MinValue
+			    )
+		lineageTag: e5de1dd6-68fa-489c-9f18-4561a23382b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Nombre
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 4c462d88-d7ba-4f86-8620-868c362d3cbd
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Apellido
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: b0a22676-0692-4cb3-9d90-b2df51e86800
+		summarizeBy: none
+		sourceColumn: Apellido
+
+		annotation SummarizationSetBy = Automatic
+
+	column cedula
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 893bd10c-49a6-41fd-b96d-f0e3065a3b92
+		summarizeBy: none
+		sourceColumn: cedula
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salario
+		dataType: double
+		sourceProviderType: double
+		lineageTag: e571a038-83aa-4df6-9c05-9b40189f56ce
+		summarizeBy: sum
+		sourceColumn: Salario
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gasto
+		dataType: double
+		sourceProviderType: double
+		lineageTag: bb1ef2f5-83e5-41ff-97e8-c3c6361cafd0
+		summarizeBy: sum
+		sourceColumn: Gasto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Estatus
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 72eaef0c-d2e3-4418-a7ce-77219cb1fbcb
+		summarizeBy: none
+		sourceColumn: Estatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column Institucion
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 9425d86c-6fa4-477f-9dc3-7c432fc06e39
+		summarizeBy: none
+		sourceColumn: Institucion
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 157ae490-9b4c-4c50-9578-e07e16f293d6
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de Inicio'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		sourceProviderType: date
+		lineageTag: 32f85a24-adc5-47fe-9177-0a762049c7a0
+		summarizeBy: none
+		sourceColumn: Fecha de Inicio
+
+		variation Variation
+			isDefault
+			relationship: baa6d583-81d0-4275-974a-8924863b40d4
+			defaultHierarchy: LocalDateTable_c8bac4b9-996b-48ff-9204-9add16d82e5f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Antiguedad
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 7f46c57f-2505-4f44-9e35-bb1779b39bc2
+		summarizeBy: sum
+		sourceColumn: Antiguedad
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_comp = silver_employee_payroll_latest_snapshot[Salario] + silver_employee_payroll_latest_snapshot[Gasto]
+		lineageTag: 7541a818-413a-4216-ae8f-9da32ee3942b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column llave
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: ff756886-efb6-4172-9ee9-38a4f966ab5d
+		summarizeBy: none
+		sourceColumn: llave
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Salario mas Gasto'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3c0751ab-559b-410f-8fa2-6fc49137b8e5
+		summarizeBy: sum
+		sourceColumn: Salario mas Gasto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column log_salario_mas_gasto
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 10648f20-a46a-4383-b91a-cdc4bda390d5
+		summarizeBy: sum
+		sourceColumn: log_salario_mas_gasto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition silver_employee_payroll_latest_snapshot = m
+		mode: import
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-f88938f0-02c4.cloud.databricks.com", "/sql/1.0/warehouses/05d15c3c0e634ce9", [Catalog = "", Database = ""]),
+				    panama_datos_abiertos_Database = Source{[Name="panama_datos_abiertos",Kind="Database"]}[Data],
+				    contraloria_Schema = panama_datos_abiertos_Database{[Name="contraloria",Kind="Schema"]}[Data],
+				    ultima_actualizacion_planilla_contraloria_View = contraloria_Schema{[Name="ultima_actualizacion_planilla_contraloria",Kind="View"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(ultima_actualizacion_planilla_contraloria_View,{"file"}),
+				    #"Added Custom" = Table.AddColumn(#"Removed Columns", "log_total_comp", each Number.Log([salary] + [allowance])),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"log_total_comp", Currency.Type}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type",{"log_total_comp"}),
+				    #"Added Custom1" = Table.AddColumn(#"Removed Columns1", "salario_mas_gasto", each [salary] + [allowance]),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "log_salario_mas_gasto", each Number.Log10([salario_mas_gasto])),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom2",{{"salario_mas_gasto", Currency.Type}, {"log_salario_mas_gasto", Currency.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"first_name", "nombre"}, {"last_name", "apellido"}, {"id_number", "cedula"}, {"salary", "salario"}, {"allowance", "gasto"}, {"status_sp", "estatus"}}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Renamed Columns",{"status_en", "institution_en"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns2",{{"institution_sp", "institucion"}, {"position_sp", "cargo"}}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Renamed Columns1",{"position_en"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns3",{{"start_date", "fecha_inicio"}}),
+				    #"Removed Columns4" = Table.RemoveColumns(#"Renamed Columns2",{"query_date", "snapshot_date"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns4",{{"years_of_service", "Antiguedad"}, {"salario_mas_gasto", "Salario mas Gasto"}, {"apellido", "Apellido"}, {"cargo", "Cargo"}, {"fecha_inicio", "Fecha de Inicio"}, {"gasto", "Gasto"}, {"institucion", "Institucion"}, {"nombre", "Nombre"}, {"salario", "Salario"}, {"estatus", "Estatus"}, {"composite_key", "llave"}})
+				in
+				    #"Renamed Columns3"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,66 @@
+table reference_status_names
+	lineageTag: 2935fb80-22ee-49ba-99c3-c7408d9b91c4
+
+	column status_name_spanish
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 4d3488e0-6ed2-4b83-acaf-e074f23bb48c
+		summarizeBy: none
+		sourceColumn: status_name_spanish
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_source_update
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 8eae9991-8e1b-46cc-a8e4-b28c5714f478
+		summarizeBy: none
+		sourceColumn: last_source_update
+
+		variation Variation
+			isDefault
+			relationship: 9e219ba0-c580-44db-a50e-5941c4ac373a
+			defaultHierarchy: LocalDateTable_497ee952-0e04-4a05-9505-5e1637c85b43.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_checked_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 2e5f86f2-dda2-4e36-b0be-eef9ecae53cc
+		summarizeBy: none
+		sourceColumn: last_checked_at
+
+		variation Variation
+			isDefault
+			relationship: 951024dc-1da5-4aa5-98c1-3893cb08e39b
+			defaultHierarchy: LocalDateTable_d1c8a9e2-0a53-4743-9489-9af823acb3ee.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_name_english
+		dataType: string
+		sourceProviderType: nvarchar(65535)
+		lineageTag: 3b197ca4-1d12-41dc-b39a-0ce40eb9f914
+		summarizeBy: none
+		sourceColumn: status_name_english
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reference_status_names = m
+		mode: import
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-f88938f0-02c4.cloud.databricks.com", "/sql/1.0/warehouses/05d15c3c0e634ce9", [Catalog = "", Database = ""]),
+				    panama_datos_abiertos_Database = Source{[Name="panama_datos_abiertos",Kind="Database"]}[Data],
+				    contraloria_Schema = panama_datos_abiertos_Database{[Name="contraloria",Kind="Schema"]}[Data],
+				    dim_estados_contraloria_View = contraloria_Schema{[Name="dim_estados_contraloria",Kind="View"]}[Data]
+				in
+				    dim_estados_contraloria_View
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
