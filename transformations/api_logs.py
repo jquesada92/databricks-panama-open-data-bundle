@@ -4,11 +4,11 @@ from pyspark.sql import functions as F
 
 # Target streaming table for latest API check logs
 
-dp.create_streaming_table(name="utlima_actualizacion_contraloria")
+dp.create_streaming_table(name="ultima_actualizacion_contraloria")
 
 # CDC flow to maintain only the latest record per institution and status
 dp.create_auto_cdc_flow(
-    target="utlima_actualizacion_contraloria",
+    target="ultima_actualizacion_contraloria",
     source="control_de_actualizaciones_contraloria",
     keys=["institution_name_spanish", "status_name_spanish"],
     sequence_by="checked_at",

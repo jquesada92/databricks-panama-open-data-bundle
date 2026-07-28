@@ -20,7 +20,7 @@ variables:
     default: contraloria
   contraloria_volume:
     description: Unity Catalog volume name
-    default: landi
+    default: landing
   warehouse_id: 
     description: Warehouse ID to run the setup job
   prevent_destroy:
@@ -66,3 +66,8 @@ targets:
       - user_name: ${workspace.current_user.userName}
         level: CAN_MANAGE
       
+artifacts:
+  default:
+    type: whl
+    build:  uv --system-certs build --wheel
+    path: .

@@ -10,7 +10,7 @@ resources:
           spec:
             dependencies:
               - openpyxl
-              - ..\dist\public_data_panama_gov-0.0.1-py3-none-any.whl
+              - ../dist/panama_datos_abiertos-0.0.1-py3-none-any.whl
             environment_version: "5"
 
       name: job_actualizar_contraloria
@@ -22,7 +22,7 @@ resources:
       tasks:
         - task_key: descargar_datos_contraloria
           spark_python_task:
-            python_file: ..\src\consulta_y_descarga_contraloria.py
+            python_file: ../src/consulta_y_descarga_contraloria.py
             parameters:
               - "--catalog"
               - ${var.catalog}

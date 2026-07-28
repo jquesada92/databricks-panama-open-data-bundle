@@ -83,7 +83,7 @@ dp.create_streaming_table(
     comment="Employee records with full change history (SCD Type 2). Tracks changes in salary, allowance, and start date.",
     # ✅ LIQUID CLUSTERING para tabla SCD
     # Optimiza queries por: empleado (keys) + rango de fechas
-    cluster_by=["cedula", "institucion", "estado"],
+    cluster_by=["institucion", "estado"],
 )
 
 # Create Auto CDC flow to track changes
@@ -94,6 +94,7 @@ dp.create_auto_cdc_flow(
         "cedula",
         "nombre",
         "apellido",
+        "institucion",
         "cargo",
         "estado",
     ],  # Primary keys for row identification

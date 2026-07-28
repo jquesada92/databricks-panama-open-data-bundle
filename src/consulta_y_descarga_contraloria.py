@@ -1,8 +1,6 @@
 from contraloria import Contraloria
 from datetime import datetime as dt
 from itertools import product
-
-
 import argparse
 
 
@@ -11,9 +9,12 @@ parser.add_argument("--catalog", type=str, required=True, help="Nombre del catá
 parser.add_argument("--schema", type=str, required=True, help="Nombre del schema")
 parser.add_argument("--volume", type=str, required=True, help="Nombre del volume")
 
-catalog = parser.parse_args().catalog
-schema = parser.parse_args().schema
-volume = parser.parse_args().volume
+args = parser.parse_args()
+
+catalog = args.catalog
+schema = args.schema
+volume = args.volume
+
 
 TABLE_AUDIT_API_CHECK = f"{catalog}.{schema}.control_de_actualizaciones_contraloria"
 
@@ -48,6 +49,7 @@ up_to_date_df = spark.read.table(TABLE_AUDIT_API_CHECK).where(
 
 
 save_path = f"/Volumes/{catalog}/{schema}/{volume}/data"
+dbutils.fs.mkdirs(save_path)
 
 updates = 0
 

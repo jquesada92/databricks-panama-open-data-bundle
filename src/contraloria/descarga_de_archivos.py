@@ -8,7 +8,7 @@ from urllib.parse import quote
 import io
 
 
-from pandas import read_excel, options, to_datetime, concat, DataFrame, read_csv
+from pandas import read_excel, options, to_datetime, concat
 
 options.mode.chained_assignment = None  # Disable chained assignment warnings in pandas
 
@@ -105,7 +105,6 @@ class Contraloria:
         The URL used is:
         https://www.contraloria.gob.pa/CGR.PLANILLAGOB.UI/Formas/Reporte?&Ne={institution}&N=&A=&C=&E={status}
         """
-        query_datetime = dt.now()
 
         # Build the report URL with institution and status filters
         url = f"{self.report_url}?&Ne={quote(institution)}&N=&A=&C=&E={quote(status)}"
@@ -146,7 +145,10 @@ class Contraloria:
         # Parse the update datetime found on the sheet header (keeps original regex/format)
         df["fecha_actualizacion"] = str(
             dt.strptime(
-                search(r".*?:\s+(\d{2}/\d{2}/\d{4}\s+\d{1,2}:\d{1,2}:\d{1,2}\s+\w{2})", str(fecha_act)).group(1),
+                search(
+                    r".*?:\s+(\d{2}/\d{2}/\d{4}\s+\d{1,2}:\d{1,2}:\d{1,2}\s+\w{2})",
+                    str(fecha_act),
+                ).group(1),
                 "%d/%m/%Y %H:%M:%S %p",
             )
         )

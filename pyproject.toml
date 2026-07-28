@@ -1,14 +1,14 @@
 [project]
-name = "public_data_panama_gov"
+name = "panama_datos_abiertos"
 version = "0.0.1"
-authors = [{ name = "jaquesada92@outlook.com" }]
+authors = [{ name = "Jose Quesada" }]
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    # Any dependencies for jobs and pipelines in this project can be added here
-    # See also https://docs.databricks.com/dev-tools/bundles/library-dependencies
-    #
-    # LIMITATION: for pipelines, dependencies are cached during development;
-    # add dependencies to the 'environment' section of your pipeline.yml file instead
+    "beautifulsoup4",
+    "openpyxl",
+    "pandas",
+    "pyarrow",
+    "requests",
 ]
 
 [dependency-groups]
@@ -16,19 +16,16 @@ dev = [
     "pytest",
     "ruff",
     "databricks-dlt",
-    "databricks-connect>=15.4,<15.5",
+    "databricks-connect==17.3.12",
     "ipykernel",
 ]
-
-[project.scripts]
-main = "public_data_panama_gov.main:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src"]
+packages = ["src/contraloria"]
 
 [tool.ruff]
 line-length = 120
